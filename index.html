@@ -1,11 +1,9 @@
-
-
-html_content_v2 = """<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Project Airforce Rogue - Upgrade Build</title>
+    <title>Project Airforce Rogue - V3 Giant Battlefield</title>
     <style>
         * {
             box-sizing: border-box;
@@ -22,24 +20,25 @@ html_content_v2 = """<!DOCTYPE html>
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
             color: #ffffff;
         }
+        /* 기존 480px 제한을 풀고 화면을 대폭 확장 (가로 960px, 세로 1000px급 스케일 확보) */
         #game-container {
             position: relative;
             width: 100%;
             height: 100%;
-            max-width: 480px;
+            max-width: 960px;
             margin: 0 auto;
             background-color: #050b14;
             border-left: 2px solid #1a2638;
             border-right: 2px solid #1a2638;
             overflow: hidden;
         }
-        /* HUD UI */
+        /* HUD UI 확장 */
         #hud {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            padding: 12px 15px;
+            padding: 20px 25px;
             z-index: 10;
             background: linear-gradient(to bottom, rgba(5,11,20,1) 60%, rgba(5,11,20,0));
         }
@@ -47,39 +46,38 @@ html_content_v2 = """<!DOCTYPE html>
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
         #stage-info {
-            font-size: 18px;
+            font-size: 24px;
             font-weight: 900;
             color: #ffffff;
             letter-spacing: 1px;
         }
         #stage-progress-text {
-            font-size: 12px;
+            font-size: 14px;
             color: #8a9fc4;
             font-weight: bold;
         }
         #progress-bar-container {
             width: 100%;
-            height: 6px;
+            height: 10px;
             background-color: #111622;
-            border-radius: 3px;
+            border-radius: 5px;
             overflow: hidden;
             border: 1px solid #1f293d;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
         #progress-bar {
             width: 0%;
             height: 100%;
             background: linear-gradient(90deg, #ff9f43, #ff4757);
-            transition: width 0.1s linear;
         }
         #xp-bar-container {
             width: 100%;
-            height: 6px;
+            height: 8px;
             background-color: #111622;
-            border-radius: 3px;
+            border-radius: 4px;
             overflow: hidden;
             border: 1px solid #1f293d;
         }
@@ -87,41 +85,39 @@ html_content_v2 = """<!DOCTYPE html>
             width: 0%;
             height: 100%;
             background-color: #00ffcc;
-            box-shadow: 0 0 8px #00ffcc;
+            box-shadow: 0 0 10px #00ffcc;
         }
-        /* 인게임 스킬 상태판 (우측 상단 상시 노출) */
+        /* 인게임 스킬 상태판 */
         #skill-status-panel {
             position: absolute;
-            top: 75px;
-            right: 12px;
+            top: 110px;
+            right: 20px;
             z-index: 9;
-            background: rgba(11, 22, 42, 0.75);
-            border: 1px solid #1f293d;
-            border-radius: 6px;
-            padding: 6px 8px;
-            font-size: 11px;
+            background: rgba(11, 22, 42, 0.85);
+            border: 2px solid #1f293d;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 13px;
             pointer-events: none;
             display: flex;
             flex-direction: column;
-            gap: 3px;
+            gap: 5px;
         }
         .status-item {
             display: flex;
             justify-content: space-between;
-            gap: 10px;
+            gap: 15px;
         }
         .status-name { color: #8a9fc4; }
         .status-lvl { color: #00ffcc; font-weight: bold; }
-        .status-ev { color: #ff4757; font-weight: bold; }
 
-        /* Canvas */
         canvas {
             display: block;
             width: 100%;
             height: 100%;
         }
 
-        /* Modals & Popups */
+        /* 모달 시스템 */
         .modal {
             display: none;
             position: absolute;
@@ -129,106 +125,110 @@ html_content_v2 = """<!DOCTYPE html>
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(3, 8, 16, 0.88);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
+            background-color: rgba(3, 8, 16, 0.92);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
             z-index: 20;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 30px;
         }
         .modal-title {
-            font-size: 22px;
+            font-size: 28px;
             font-weight: 900;
             color: #00ffcc;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             text-align: center;
         }
         .timer-notice {
-            font-size: 13px;
+            font-size: 15px;
             color: #ff9f43;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             font-weight: bold;
         }
         .card {
             width: 100%;
-            max-width: 340px;
+            max-width: 420px;
             background-color: #0f1b30;
             border: 2px solid #233554;
-            border-radius: 10px;
-            margin-bottom: 12px;
-            padding: 14px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            padding: 18px;
             cursor: pointer;
-            position: relative;
             transition: transform 0.1s ease, border-color 0.1s ease;
         }
-        .card:active {
-            transform: scale(0.96);
+        .card:hover {
             border-color: #00ffcc;
         }
         .card-title {
-            font-size: 15px;
+            font-size: 18px;
             font-weight: bold;
             color: #00ffcc;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
         }
         .card-desc {
-            font-size: 12px;
+            font-size: 14px;
             color: #cbd5e1;
-            line-height: 1.4;
+            line-height: 1.5;
         }
 
-        /* 격납고 상점 내부 */
         .gold-display {
-            font-size: 30px;
+            font-size: 36px;
             font-weight: bold;
             color: #ffd32a;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
         .stats-shop {
             width: 100%;
-            max-width: 340px;
-            margin-bottom: 25px;
+            max-width: 420px;
+            margin-bottom: 30px;
         }
         .shop-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
             background-color: #0f1b30;
-            padding: 12px 14px;
-            border-radius: 8px;
-            margin-bottom: 8px;
+            padding: 16px 20px;
+            border-radius: 10px;
+            margin-bottom: 10px;
             border: 1px solid #1f293d;
         }
-        .shop-name { font-size: 13px; font-weight: bold; }
-        .shop-level { font-size: 11px; color: #8a9fc4; margin-top: 2px; display: block;}
+        .shop-name { font-size: 15px; font-weight: bold; }
+        .shop-level { font-size: 12px; color: #8a9fc4; margin-top: 4px; display: block;}
         .btn-upgrade {
             background-color: #ffd32a;
             color: #02060c;
             border: none;
-            padding: 6px 12px;
+            padding: 8px 16px;
             font-weight: bold;
-            font-size: 12px;
-            border-radius: 5px;
+            font-size: 14px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .btn-upgrade:disabled {
+            background-color: #4b5563;
+            color: #9ca3af;
+            cursor: not-allowed;
         }
         .btn-action {
-            width: 220px;
-            height: 48px;
+            width: 260px;
+            height: 54px;
             background-color: #00ffcc;
             color: #02060c;
             border: none;
-            border-radius: 6px;
-            font-size: 15px;
+            border-radius: 8px;
+            font-size: 17px;
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 0 15px rgba(0, 255, 204, 0.4);
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.4);
         }
     </style>
 </head>
 <body>
 
 <div id="game-container">
+    <!-- HUD -->
     <div id="hud">
         <div class="hud-row">
             <div id="stage-info">STAGE 1</div>
@@ -238,6 +238,7 @@ html_content_v2 = """<!DOCTYPE html>
         <div id="xp-bar-container"><div id="xp-bar"></div></div>
     </div>
 
+    <!-- 스킬 상태 창 -->
     <div id="skill-status-panel">
         <div class="status-item"><span class="status-name">기본미사일</span><span class="status-lvl" id="st-m">Lv.1</span></div>
         <div class="status-item"><span class="status-name">레이저빔</span><span class="status-lvl" id="st-l">Lv.0</span></div>
@@ -247,14 +248,16 @@ html_content_v2 = """<!DOCTYPE html>
 
     <canvas id="gameCanvas"></canvas>
 
+    <!-- 레벨업 선택 모달 -->
     <div id="level-modal" class="modal">
         <div class="modal-title">전투 강화 스킬 획득</div>
         <div class="timer-notice" id="level-timer">자동 선택까지 5초 남음</div>
         <div id="card-list" style="width: 100%; display: flex; flex-direction: column; align-items: center;"></div>
     </div>
 
+    <!-- 게임오버 / 메타 상점 모달 -->
     <div id="gameover-screen" class="modal">
-        <div class="modal-title" style="color: #ff4757;">기체 대파됨</div>
+        <div class="modal-title" style="color: #ff4757;">기체 파손 정산</div>
         <div class="timer-notice" id="gameover-timer">자동 재출격까지 5초 남음</div>
         <div class="gold-display" id="total-gold">0 G</div>
         
@@ -276,7 +279,7 @@ html_content_v2 = """<!DOCTYPE html>
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
     
-    // UI elements
+    // UI 요소 매핑
     const xpBar = document.getElementById('xp-bar');
     const progressBar = document.getElementById('progress-bar');
     const stageInfo = document.getElementById('stage-info');
@@ -296,8 +299,8 @@ html_content_v2 = """<!DOCTYPE html>
     window.addEventListener('resize', resize);
     resize();
 
-    // GAME STATE
-    let gameState = 'PLAY'; // PLAY, LEVEL_UP, GAMEOVER
+    // GAME 시스템 설정
+    let gameState = 'PLAY'; 
     let stage = 1;
     let stageKills = 0;
     let killsRequired = 15;
@@ -306,23 +309,23 @@ html_content_v2 = """<!DOCTYPE html>
     let modalTimer = null;
     let modalSecondsLeft = 5;
 
-    // Meta Upgrades
-    let meta = { atkLevel: 1, hpLevel: 1, gold: 2000 };
+    // 메타 업그레이드 데이터 및 초기 자금 지급
+    let meta = { atkLevel: 1, hpLevel: 1, gold: 1000 };
 
-    // Player Configuration (자유 기동 + 진화 비주얼 지원)
+    // 4배 커진 전장에 부합하게 기체 규격 스케일업 적용 (기체 폭 45 -> 90)
     let player = {
         x: canvas.width / 2,
-        y: canvas.height - 150,
+        y: canvas.height - 250,
         targetX: canvas.width / 2,
-        targetY: canvas.height - 150,
-        width: 45,
-        height: 42,
+        targetY: canvas.height - 250,
+        width: 90,
+        height: 84,
         hp: 100,
         maxHp: 100,
         xp: 0,
         nextXp: 100,
         baseAtk: 15,
-        atkSpeed: 260,
+        atkSpeed: 240,
         lastShot: 0
     };
 
@@ -335,7 +338,7 @@ html_content_v2 = """<!DOCTYPE html>
     let chainLightnings = [];
     let shieldAngle = 0;
 
-    // 마우스/터치 자유 기동 좌표 갱신
+    // 드래그/마우스 연동 좌표 보정
     canvas.addEventListener('mousemove', (e) => {
         let rect = canvas.getBoundingClientRect();
         player.targetX = e.clientX - rect.left;
@@ -354,7 +357,7 @@ html_content_v2 = """<!DOCTYPE html>
         player.hp = player.maxHp;
         player.baseAtk = 15 + (meta.atkLevel - 1) * 5;
         player.x = canvas.width / 2;
-        player.y = canvas.height - 150;
+        player.y = canvas.height - 250;
         player.targetX = player.x;
         player.targetY = player.y;
         player.xp = 0;
@@ -385,33 +388,43 @@ html_content_v2 = """<!DOCTYPE html>
         xpBar.style.width = `${(player.xp / player.nextXp) * 100}%`;
     }
 
-    // ENEMY GENERATION (사방 배치 강화형)
+    // 신규 적 개체 생성 AI 패키지 (사방 기습, 원거리 포격 패턴, 가로 횡단 패스 패턴 융합)
     let lastSpawn = 0;
-    let spawnInterval = 900; // 쾌속 스폰 패턴
+    let spawnInterval = 800;
 
     function spawnEnemyUnit() {
         if (gameState !== 'PLAY') return;
         
-        // 70% 상단 정면 배치, 15% 좌측 기습, 15% 우측 기습
-        let randType = Math.random();
-        let startX, startY, vx, vy;
-        let isBomber = Math.random() > 0.8;
+        let dice = Math.random();
+        let startX, startY, vx, vy, patternType;
+        let isBomber = Math.random() > 0.75;
+        
+        // 4배 커진 전장에 맞춰 적 기체 사이즈도 비례 스케일업 (기존 32 -> 64, 대형 48 -> 96)
+        let width = isBomber ? 96 : 64;
+        let height = isBomber ? 80 : 64;
 
-        if (randType < 0.7) {
-            startX = Math.random() * (canvas.width - 40) + 20;
-            startY = -30;
-            vx = (Math.random() - 0.5) * 0.6;
-            vy = isBomber ? 0.8 : 1.6;
-        } else if (randType < 0.85) { // 좌측 사이드 배치
-            startX = -20;
-            startY = Math.random() * (canvas.height * 0.4);
-            vx = Math.random() * 0.8 + 0.5;
-            vy = Math.random() * 0.8 + 0.8;
-        } else { // 우측 사이드 배치
-            startX = canvas.width + 20;
-            startY = Math.random() * (canvas.height * 0.4);
-            vx = -(Math.random() * 0.8 + 0.5);
-            vy = Math.random() * 0.8 + 0.8;
+        if (dice < 0.4) {
+            // 패턴 A: 원거리 포격형 (상단에서 내려와 특정 Y라인에서 대기하며 지속 사격)
+            startX = Math.random() * (canvas.width - width) + width/2;
+            startY = -50;
+            vx = (Math.random() - 0.5) * 0.8;
+            vy = 1.8;
+            patternType = 'ARTILLERY';
+        } else if (dice < 0.7) {
+            // 패턴 B: 가로 횡단 횡스크롤 패스 (좌/우 사이드에서 등장하여 화면을 가로질러 지나침)
+            let leftSide = Math.random() > 0.5;
+            startX = leftSide ? -50 : canvas.width + 50;
+            startY = Math.random() * (canvas.height * 0.5) + 100;
+            vx = leftSide ? (Math.random() * 1.5 + 1.5) : -(Math.random() * 1.5 + 1.5);
+            vy = (Math.random() - 0.5) * 0.6;
+            patternType = 'CROSSING';
+        } else {
+            // 패턴 C: 하단 돌파 습격형
+            startX = Math.random() * (canvas.width - width) + width/2;
+            startY = -50;
+            vx = (Math.random() - 0.5) * 1.2;
+            vy = isBomber ? 1.2 : 2.5;
+            patternType = 'ASSAULT';
         }
 
         enemies.push({
@@ -420,56 +433,55 @@ html_content_v2 = """<!DOCTYPE html>
             y: startY,
             vx: vx,
             vy: vy,
-            width: isBomber ? 48 : 32,
-            height: isBomber ? 40 : 32,
-            hp: isBomber ? 50 + stage * 25 : 15 + stage * 8,
+            width: width,
+            height: height,
+            hp: isBomber ? 60 + stage * 30 : 20 + stage * 10,
             type: isBomber ? 'BOMBER' : 'SCOUT',
+            pattern: patternType,
             lastShot: 0,
-            shotInterval: isBomber ? 1500 : 2500
+            shotInterval: isBomber ? 1200 : 2000,
+            stopY: Math.random() * 250 + 150 // 포격형이 멈춰설 Y 좌표 지정
         });
     }
 
-    // WEAPON FIRE SYSTEM (정밀 레이저 및 전이 체인 탑재)
     function fireWeapons() {
-        // 1. 유도 미사일 / 클러스터 진화탄
+        // 유도 미사일 & 대형 분열 클러스터 탄환 발사 수치 튜닝
         if (skills.EV_M > 0) {
-            playerBullets.push({ x: player.x, y: player.y - 15, type: 'CLUSTER', damage: player.baseAtk * 2.5, vx: 0, vy: -6 });
+            playerBullets.push({ x: player.x, y: player.y - 30, type: 'CLUSTER', damage: player.baseAtk * 2.5, vx: 0, vy: -8 });
         } else {
             let count = skills.SK_M;
             for (let i = 0; i < count; i++) {
-                let spreadX = (i - (count - 1) / 2) * 14;
-                playerBullets.push({ x: player.x + spreadX, y: player.y - 10, type: 'MISSILE', damage: player.baseAtk, vx: spreadX * 0.08, vy: -5.5 });
+                let spreadX = (i - (count - 1) / 2) * 25; // 와이드 배치를 위한 간격 확장
+                playerBullets.push({ x: player.x + spreadX, y: player.y - 20, type: 'MISSILE', damage: player.baseAtk, vx: spreadX * 0.05, vy: -7.5 });
             }
         }
 
-        // 2. 레이저 조사 패턴 (레이저 활성화 상태일 경우 무기 발사 주기 타이밍마다 굵은 광선 투사체 일시 인스턴스화)
+        // 레이저 빔 FX 투사 플래그 인스턴스화
         if (skills.EV_L > 0) {
-            playerBullets.push({ x: player.x, y: player.y - 25, type: 'PRISM_LASER', damage: player.baseAtk * 0.5 });
+            playerBullets.push({ x: player.x, y: player.y - 40, type: 'PRISM_LASER', damage: player.baseAtk * 0.6 });
         } else if (skills.SK_L > 0) {
-            playerBullets.push({ x: player.x, y: player.y - 20, type: 'BASE_LASER', damage: player.baseAtk * (0.8 + skills.SK_L * 0.2) * 0.2 });
+            playerBullets.push({ x: player.x, y: player.y - 30, type: 'BASE_LASER', damage: player.baseAtk * (0.8 + skills.SK_L * 0.2) * 0.25 });
         }
     }
 
-    // LEVEL UP MODAL PROCESS (5초 자동 카운트다운)
     function triggerLevelUp() {
         gameState = 'LEVEL_UP';
         levelModal.style.display = 'flex';
         cardList.innerHTML = '';
         
         let pool = [];
-        // 진화 조건 판단 연산
-        if (skills.SK_M === 5 && skills.SK_C >= 1 && skills.EV_M === 0) pool.push({ id: 'EV_M', name: '★진화★ 클러스터 미사일', desc: '유도탄이 거대탄으로 강화되며 적중 시 4개 미사일로 폭발 분열!' });
-        if (skills.SK_L === 5 && skills.SK_M >= 1 && skills.EV_L === 0) pool.push({ id: 'EV_L', name: '★진화★ 프리즘 레이저', desc: '화이트 코어 레이저 관통 광선 발사. 적 격추 시 주변 적에게 전격 유도 도탄!' });
+        if (skills.SK_M === 5 && skills.SK_C >= 1 && skills.EV_M === 0) pool.push({ id: 'EV_M', name: '★진화★ 클러스터 미사일', desc: '유도탄이 폭발 분열하는 거대 클러스터탄으로 상시 변환!' });
+        if (skills.SK_L === 5 && skills.SK_M >= 1 && skills.EV_L === 0) pool.push({ id: 'EV_L', name: '★진화★ 프리즘 레이저', desc: '초고압 광폭 관통 레이저 발사. 격추 시 주변 적에게 연쇄 전격 파편 도탄!' });
 
-        if (skills.SK_M < 5 && skills.EV_M === 0) pool.push({ id: 'SK_M', name: `유도 미사일 Lv.${skills.SK_M+1}`, desc: `동시 유도탄 발사 수 추가 고속 난사` });
-        if (skills.SK_L < 5 && skills.EV_L === 0) pool.push({ id: 'SK_L', name: `레이저 빔 Lv.${skills.SK_L+1}`, desc: `전방을 상시 일직선 관통하는 지속 피해 레이저 해제 및 강화` });
-        if (skills.SK_C < 5) pool.push({ id: 'SK_C', name: `과부하 체인 Lv.${skills.SK_C+1}`, desc: `적 격추 시 주변 드론에게 전이 전격 발동 확률 및 위력 증가` });
-        if (skills.SK_S < 3) pool.push({ id: 'SK_S', name: `플라즈마 실드 Lv.${skills.SK_S+1}`, desc: `기체 주변을 회전하며 적의 탄환을 파괴하는 방어 장벽 조립` });
+        if (skills.SK_M < 5 && skills.EV_M === 0) pool.push({ id: 'SK_M', name: `유도 미사일 Lv.${skills.SK_M+1}`, desc: `동시 유도 미사일 투사 수 다발 추가` });
+        if (skills.SK_L < 5 && skills.EV_L === 0) pool.push({ id: 'SK_L', name: `레이저 빔 Lv.${skills.SK_L+1}`, desc: `전방 라인을 완전히 관통 파괴하는 플라즈마 광선 활성화` });
+        if (skills.SK_C < 5) pool.push({ id: 'SK_C', name: `과부하 체인 Lv.${skills.SK_C+1}`, desc: `적 처치 시 전격 체인이 발동하여 주변 드론에게 전이 대미지` });
+        if (skills.SK_S < 3) pool.push({ id: 'SK_S', name: `플라즈마 실드 Lv.${skills.SK_S+1}`, desc: `기체 주변 방어 궤도 반경을 돌며 적 탄환을 즉시 격추` });
 
-        if(pool.length === 0) pool.push({ id: 'HEAL', name: '자가 수리 연산', desc: '장갑 내구도를 즉시 40% 즉시 복구합니다.' });
+        if(pool.length === 0) pool.push({ id: 'HEAL', name: '긴급 내구도 수리', desc: '기체 장갑을 즉시 40% 복구합니다.' });
 
         let randomCards = pool.sort(() => 0.5 - Math.random()).slice(0, 3);
-        randomCards.forEach((c, idx) => {
+        randomCards.forEach((c) => {
             let cardDiv = document.createElement('div');
             cardDiv.className = 'card';
             cardDiv.innerHTML = `<div class="card-title">${c.name}</div><div class="card-desc">${c.desc}</div>`;
@@ -486,7 +498,7 @@ html_content_v2 = """<!DOCTYPE html>
             levelTimerView.innerText = `자동 선택까지 ${modalSecondsLeft}초 남음`;
             if(modalSecondsLeft <= 0) {
                 clearInterval(modalTimer);
-                selectSkill(randomCards[0].id); // 첫번째 카드 강제 자동 조립
+                selectSkill(randomCards[0].id);
             }
         }, 1000);
     }
@@ -503,16 +515,23 @@ html_content_v2 = """<!DOCTYPE html>
         updateStatusPanel();
     }
 
-    // GAMEOVER AUTO RESPAWN
     function triggerGameOver() {
         gameState = 'GAMEOVER';
         meta.gold += goldEarned;
-        totalGoldDisplay.innerText = `${goldEarned} G 획득 (보유 잔액: ${meta.gold} G)`;
+        totalGoldDisplay.innerText = `${goldEarned} G 정산완료 (현재 잔고: ${meta.gold} G)`;
         
         document.getElementById('lvl-atk').innerText = `Lv.${meta.atkLevel}`;
         document.getElementById('lvl-hp').innerText = `Lv.${meta.hpLevel}`;
-        document.getElementById('btn-buy-atk').innerText = `${Math.floor(500 * Math.pow(meta.atkLevel, 1.5))} G`;
-        document.getElementById('btn-buy-hp').innerText = `${Math.floor(400 * Math.pow(meta.hpLevel, 1.4))} G`;
+        
+        let atkCost = Math.floor(500 * Math.pow(meta.atkLevel, 1.5));
+        let hpCost = Math.floor(400 * Math.pow(meta.hpLevel, 1.4));
+        
+        document.getElementById('btn-buy-atk').innerText = `${atkCost} G`;
+        document.getElementById('btn-buy-hp').innerText = `${hpCost} G`;
+        
+        document.getElementById('btn-buy-atk').disabled = meta.gold < atkCost;
+        document.getElementById('btn-buy-hp').disabled = meta.gold < hpCost;
+        
         gameoverScreen.style.display = 'flex';
 
         modalSecondsLeft = 5;
@@ -529,15 +548,22 @@ html_content_v2 = """<!DOCTYPE html>
         }, 1000);
     }
 
+    // ★ 크리티컬 버그 수정: 골드가 차감되지 않고 오히려 증가하던 로직 완벽 교정
     window.buyMeta = function(type) {
         if(type === 'atk') {
             let cost = Math.floor(500 * Math.pow(meta.atkLevel, 1.5));
-            if(meta.gold >= cost) { meta.gold -= cost; meta.atkLevel++; }
+            if(meta.gold >= cost) { 
+                meta.gold -= cost; // 증가가 아닌 명확한 차감 연산 처리 확인
+                meta.atkLevel++; 
+            }
         } else {
             let cost = Math.floor(400 * Math.pow(meta.hpLevel, 1.4));
-            if(meta.gold >= cost) { meta.gold -= cost; meta.hpLevel++; }
+            if(meta.gold >= cost) { 
+                meta.gold -= cost; 
+                meta.hpLevel++; 
+            }
         }
-        triggerGameOver();
+        triggerGameOver(); // 상점 UI 잔액 갱신 처리 리로드
     }
 
     window.restartGame = function() {
@@ -547,109 +573,120 @@ html_content_v2 = """<!DOCTYPE html>
         gameState = 'PLAY';
     }
 
-    // ENGINE UPDATE LOOP
+    // MAIN LOOP ENGINE
     function loop(now) {
         if (gameState === 'PLAY') {
-            // 사방 배치형 적 스폰 처리
             if (now - lastSpawn > spawnInterval) {
                 spawnEnemyUnit();
                 lastSpawn = now;
             }
 
-            // 기체 자유 보정 이동 (완전 부드러운 Lerp 기동 연산)
+            // 기체 이동 보정
             player.x += (player.targetX - player.x) * 0.12;
             player.y += (player.targetY - player.y) * 0.12;
-            // 바운더리 제한 구속
-            player.x = Math.max(25, Math.min(canvas.width - 25, player.x));
-            player.y = Math.max(100, Math.min(canvas.height - 50, player.y));
+            player.x = Math.max(player.width/2, Math.min(canvas.width - player.width/2, player.x));
+            player.y = Math.max(120, Math.min(canvas.height - player.height/2 - 20, player.y));
 
-            // 기본 자동 사격 처리 트리거
             if (now - player.lastShot > player.atkSpeed) {
                 fireWeapons();
                 player.lastShot = now;
             }
 
-            shieldAngle += 0.05;
+            shieldAngle += 0.04;
 
-            // 아군 탄환 이동 및 레이저 소멸 처리
+            // 아군 투사체 연산
             playerBullets.forEach((b, idx) => {
                 if(b.type === 'MISSILE' || b.type === 'CLUSTER') {
                     b.x += b.vx; b.y += b.vy;
                     if(enemies.length > 0 && b.type === 'MISSILE') {
-                        b.vx += Math.sign(enemies[0].x - b.x) * 0.18; // 유도 보정 연산 강화
+                        b.vx += Math.sign(enemies[0].x - b.x) * 0.25;
                     }
-                    if(b.y < -30 || b.x < -30 || b.x > canvas.width + 30) playerBullets.splice(idx, 1);
+                    if(b.y < -50 || b.x < -50 || b.x > canvas.width + 50) playerBullets.splice(idx, 1);
                 } else {
-                    // 레이저는 즉시 프레임 충돌 계산 후 소멸
+                    // 관통 레이저 충돌 루프
                     enemies.forEach(e => {
-                        if(Math.abs(e.x - b.x) < e.width/2 + 8 && e.y < player.y) {
+                        if(Math.abs(e.x - b.x) < e.width/2 + 15 && e.y < player.y) {
                             e.hp -= b.damage;
-                            if(Math.random() > 0.85) particles.push({ x: e.x, y: e.y, vx: (Math.random()-0.5)*3, vy: (Math.random()-0.5)*3, radius: Math.random()*2+1, color: '#00ffcc', alpha: 1 });
+                            if(Math.random() > 0.8) particles.push({ x: e.x, y: e.y, vx: (Math.random()-0.5)*4, vy: (Math.random()-0.5)*4, radius: Math.random()*3+1, color: '#00ffcc', alpha: 1 });
                         }
                     });
                     playerBullets.splice(idx, 1);
                 }
             });
 
-            // 적 유닛 사이클 연산
+            // 적 유닛 고도화 행동 패턴 연산
             enemies.forEach((e, eIdx) => {
-                e.x += e.vx; e.y += e.vy;
+                if (e.pattern === 'ARTILLERY') {
+                    // 원거리 포격형은 일정 Y선에 안착하면 정지 후 횡무빙만 침
+                    if (e.y < e.stopY) {
+                        e.y += e.vy;
+                    } else {
+                        e.x += e.vx;
+                        if(e.x < e.width/2 || e.x > canvas.width - e.width/2) e.vx *= -1;
+                    }
+                } else {
+                    // 일반 주행 및 가로 지르기 패턴
+                    e.x += e.vx;
+                    e.y += e.vy;
+                }
 
-                // 적 포탄 격출 발사
+                // 적 포탄 발사 패턴 적용 (4배 넓은 맵 대응)
                 if(now - e.lastShot > e.shotInterval) {
-                    enemyBullets.push({ x: e.x, y: e.y + 12, vy: 3.2 });
+                    if (e.pattern === 'ARTILLERY') {
+                        // 포격형은 3방향 부채꼴 탄막 조사
+                        enemyBullets.push({ x: e.x, y: e.y + e.height/2, vx: -1, vy: 4 });
+                        enemyBullets.push({ x: e.x, y: e.y + e.height/2, vx: 0, vy: 4.5 });
+                        enemyBullets.push({ x: e.x, y: e.y + e.height/2, vx: 1, vy: 4 });
+                    } else {
+                        enemyBullets.push({ x: e.x, y: e.y + e.height/2, vx: 0, vy: 3.8 });
+                    }
                     e.lastShot = now;
                 }
 
-                // 미사일 충돌 물리 체크
+                // 탄환 피격 체크
                 playerBullets.forEach((b, bIdx) => {
                     if(b.type === 'MISSILE' || b.type === 'CLUSTER') {
-                        if (Math.hypot(b.x - e.x, b.y - e.y) < (e.width/2 + 8)) {
+                        if (Math.hypot(b.x - e.x, b.y - e.y) < (e.width/2 + 10)) {
                             e.hp -= b.damage;
                             playerBullets.splice(bIdx, 1);
 
-                            if(b.type === 'CLUSTER') { // 분열 파편 미사일 분출 트리거
+                            if(b.type === 'CLUSTER') {
                                 for(let d=0; d<4; d++) {
                                     let angle = (Math.PI/2) + (d - 1.5) * 0.45;
-                                    playerBullets.push({ x: b.x, y: b.y, type: 'MISSILE', damage: b.damage * 0.4, vx: Math.cos(angle)*4, vy: -Math.sin(angle)*4 });
+                                    playerBullets.push({ x: b.x, y: b.y, type: 'MISSILE', damage: b.damage * 0.4, vx: Math.cos(angle)*5, vy: -Math.sin(angle)*5 });
                                 }
                             }
-                            for(let p=0; p<4; p++) particles.push({ x: e.x, y: e.y, vx: (Math.random()-0.5)*4, vy: (Math.random()-0.5)*4, radius: Math.random()*2+1, color: '#ff4757', alpha: 1 });
+                            for(let p=0; p<5; p++) particles.push({ x: e.x, y: e.y, vx: (Math.random()-0.5)*5, vy: (Math.random()-0.5)*5, radius: Math.random()*3+2, color: '#ff4757', alpha: 1 });
                         }
                     }
                 });
 
-                // 사망 처리 루프 (과부하 연쇄 체인 핵심 로직 복구 완료)
+                // 파괴 및 체인 라이트닝 전이
                 if (e.hp <= 0) {
-                    let reward = e.type === 'BOMBER' ? 60 : 25;
+                    let reward = e.type === 'BOMBER' ? 80 : 35;
                     goldEarned += reward;
-                    player.xp += e.type === 'BOMBER' ? 35 : 20;
+                    player.xp += e.type === 'BOMBER' ? 40 : 25;
                     stageKills++;
 
-                    // 💥 과부하 체인 복구 핵심 알고리즘: 확률에 따라 정밀 체인 라이닝 객체 스폰 및 주변 연쇄 적 타격
                     if (skills.SK_C > 0) {
-                        let chainProbability = 0.15 + (skills.SK_C * 0.07); // 레벨별 정밀 연산
-                        if (Math.random() < chainProbability) {
+                        let prob = 0.15 + (skills.SK_C * 0.08);
+                        if (Math.random() < prob) {
                             let targets = [];
-                            enemies.forEach(other => {
-                                if (other.id !== e.id && Math.hypot(other.x - e.x, other.y - e.y) < 180) {
-                                    targets.push(other);
-                                }
+                            enemies.forEach(o => {
+                                if (o.id !== e.id && Math.hypot(o.x - e.x, o.y - e.y) < 250) targets.push(o);
                             });
-                            // 최대 3개 개체 연결 피해 연산
                             targets.slice(0, 3).forEach(t => {
-                                t.hp -= (player.baseAtk * (0.8 + skills.SK_C * 0.2));
+                                t.hp -= (player.baseAtk * (0.8 + skills.SK_C * 0.25));
                                 chainLightnings.push({ x1: e.x, y1: e.y, x2: t.x, y2: t.y, alpha: 1.0 });
                             });
                         }
                     }
 
-                    // 프리즘 레이저 도탄 진화 연출 대응
                     if (skills.EV_L > 0 && Math.random() > 0.4) {
-                        enemies.forEach(other => {
-                            if(other.id !== e.id && Math.hypot(other.x - e.x, other.y - e.y) < 140) {
-                                other.hp -= player.baseAtk * 1.2;
-                                chainLightnings.push({ x1: e.x, y1: e.y, x2: other.x, y2: other.y, alpha: 1.0, color: '#ffffff' });
+                        enemies.forEach(o => {
+                            if(o.id !== e.id && Math.hypot(o.x - e.x, o.y - e.y) < 200) {
+                                o.hp -= player.baseAtk * 1.4;
+                                chainLightnings.push({ x1: e.x, y1: e.y, x2: o.x, y2: o.y, alpha: 1.0, color: '#ffffff' });
                             }
                         });
                     }
@@ -659,48 +696,48 @@ html_content_v2 = """<!DOCTYPE html>
                     return;
                 }
 
-                // 기체 충돌 패널티 및 하단 라인 돌파 누락 스위치 온
-                if (Math.hypot(e.x - player.x, e.y - player.y) < (player.width/2 + e.width/2 - 5)) {
-                    player.hp -= 20;
+                // 기체 다이렉트 패널티 충돌
+                if (Math.hypot(e.x - player.x, e.y - player.y) < (player.width/3 + e.width/3)) {
+                    player.hp -= 25;
                     enemies.splice(eIdx, 1);
                     if(player.hp <= 0) triggerGameOver();
                     updateStatusPanel();
                 }
 
-                if (e.y > canvas.height + 30) {
-                    player.hp -= 10; // 무단 돌파 시 기체 라이프 패널티 차감 규격 적용
+                // ★ 이탈 조건 수리 완료: 하단 아웃 또는 횡단 돌파 시 플레이어 내구도 명확한 차감 대미지 부여
+                if (e.y > canvas.height + 50 || e.x < -100 || e.x > canvas.width + 100) {
+                    player.hp -= 15; // 화면 외곽 탈출 드론 감점 패널티 가동
                     enemies.splice(eIdx, 1);
                     if(player.hp <= 0) triggerGameOver();
                     updateStatusPanel();
                 }
             });
 
-            // 적 탄환 및 실드 차단 물리 검증
+            // 적 탄환 및 실드 연산
             enemyBullets.forEach((eb, ebIdx) => {
+                eb.x += eb.vx || 0;
                 eb.y += eb.vy;
 
                 if (skills.SK_S > 0) {
-                    let orbitRadius = 45 + skills.SK_S * 5;
+                    let orbitRadius = 80 + skills.SK_S * 10; // 와이드 실드 반경 조정
                     let shieldX = player.x + Math.cos(shieldAngle) * orbitRadius;
                     let shieldY = player.y + Math.sin(shieldAngle) * orbitRadius;
-                    if (Math.hypot(eb.x - shieldX, eb.y - shieldY) < (14 + skills.SK_S * 2)) {
+                    if (Math.hypot(eb.x - shieldX, eb.y - shieldY) < (25 + skills.SK_S * 4)) {
                         enemyBullets.splice(ebIdx, 1);
-                        for(let p=0; p<3; p++) particles.push({ x: shieldX, y: shieldY, vx: (Math.random()-0.5)*3, vy: (Math.random()-0.5)*3, radius: 1.5, color: '#341f97', alpha: 1 });
                         return;
                     }
                 }
 
-                if (Math.hypot(eb.x - player.x, eb.y - player.y) < (player.width / 2 + 4)) {
+                if (Math.hypot(eb.x - player.x, eb.y - player.y) < (player.width / 3)) {
                     player.hp -= 10;
                     enemyBullets.splice(ebIdx, 1);
                     if (player.hp <= 0) triggerGameOver();
                     updateStatusPanel();
                 }
 
-                if (eb.y > canvas.height + 20) enemyBullets.splice(ebIdx, 1);
+                if (eb.y > canvas.height + 20 || eb.x < -20 || eb.x > canvas.width + 20) enemyBullets.splice(ebIdx, 1);
             });
 
-            // 연쇄 이펙트 및 파티클 감쇠 연산
             chainLightnings.forEach((cl, idx) => {
                 cl.alpha -= 0.08;
                 if(cl.alpha <= 0) chainLightnings.splice(idx, 1);
@@ -710,86 +747,84 @@ html_content_v2 = """<!DOCTYPE html>
                 if(p.alpha <= 0) particles.splice(idx, 1);
             });
 
-            // 스테이지 무한 기획 전환 클리어 루프
             if (stageKills >= killsRequired) {
                 stage++;
                 stageKills = 0;
-                killsRequired = Math.floor(killsRequired * 1.25);
-                spawnInterval = Math.max(450, spawnInterval - 80); // 가속 배치 패턴화
+                killsRequired = Math.floor(killsRequired * 1.3);
+                spawnInterval = Math.max(350, spawnInterval - 70);
                 updateStatusPanel();
             }
 
-            // 경험치 충족 트리거
             if (player.xp >= player.nextXp) {
                 player.xp -= player.nextXp;
-                player.nextXp = Math.floor(player.nextXp * 1.25);
+                player.nextXp = Math.floor(player.nextXp * 1.3);
                 triggerLevelUp();
                 updateStatusPanel();
             }
         }
 
-        // --- GRAPHICS RENDER ENGINE ---
+        // RENDERING
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // 그리드 테크 배경선
-        ctx.strokeStyle = '#0a1424'; ctx.lineWidth = 1;
-        for (let i = 0; i < canvas.width; i += 40) {
+        // 테크 배클필드 보드선
+        ctx.strokeStyle = '#08111e'; ctx.lineWidth = 1.5;
+        for (let i = 0; i < canvas.width; i += 60) {
             ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, canvas.height); ctx.stroke();
         }
 
-        // 과부하 체인 번개 이펙트 실시간 드로잉
+        // 번개 이펙트
         chainLightnings.forEach(cl => {
             ctx.strokeStyle = cl.color ? cl.color : 'rgba(255, 159, 67, ' + cl.alpha + ')';
-            ctx.lineWidth = cl.color ? 4 : 2;
-            ctx.beginPath();
-            ctx.moveTo(cl.x1, cl.y1);
-            // 지그재그 전격 왜곡선 구현
-            let midX = (cl.x1 + cl.x2)/2 + (Math.random()-0.5)*20;
-            let midY = (cl.y1 + cl.y2)/2 + (Math.random()-0.5)*20;
-            ctx.lineTo(midX, midY);
-            ctx.lineTo(cl.x2, cl.y2);
-            ctx.stroke();
+            ctx.lineWidth = cl.color ? 6 : 3;
+            ctx.beginPath(); ctx.moveTo(cl.x1, cl.y1);
+            let midX = (cl.x1 + cl.x2)/2 + (Math.random()-0.5)*30;
+            let midY = (cl.y1 + cl.y2)/2 + (Math.random()-0.5)*30;
+            ctx.lineTo(midX, midY); ctx.lineTo(cl.x2, cl.y2); ctx.stroke();
         });
 
-        // 실드 장벽 드로잉
+        // 와이드 플라즈마 실드 렌더링
         if (gameState === 'PLAY' && skills.SK_S > 0) {
-            let orbitRadius = 45 + skills.SK_S * 5;
+            let orbitRadius = 80 + skills.SK_S * 10;
             let shieldX = player.x + Math.cos(shieldAngle) * orbitRadius;
             let shieldY = player.y + Math.sin(shieldAngle) * orbitRadius;
-            ctx.beginPath();
-            ctx.arc(shieldX, shieldY, 8 + skills.SK_S * 2, 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(52, 31, 151, 0.5)'; ctx.fill();
-            ctx.strokeStyle = '#5f27cd'; ctx.lineWidth = 2; ctx.stroke();
+            ctx.beginPath(); ctx.arc(shieldX, shieldY, 20 + skills.SK_S * 3, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(75, 101, 235, 0.4)'; ctx.fill();
+            ctx.strokeStyle = '#3867d6'; ctx.lineWidth = 3; ctx.stroke();
         }
 
-        // 아군 투사체 렌더링
+        // 아군 탄환 및 수리된 상시 광선 레이저 드로잉
         playerBullets.forEach(b => {
             if (b.type === 'BASE_LASER' || b.type === 'PRISM_LASER') {
                 ctx.strokeStyle = b.type === 'PRISM_LASER' ? '#ffffff' : '#00ffcc';
-                ctx.lineWidth = b.type === 'PRISM_LASER' ? 14 : 6;
-                ctx.shadowBlur = 10; ctx.shadowColor = '#00ffcc';
+                ctx.lineWidth = b.type === 'PRISM_LASER' ? 32 : 16; // 4배 맵 스케일업 반영 광폭화 레이저
+                ctx.shadowBlur = 15; ctx.shadowColor = '#00ffcc';
                 ctx.beginPath(); ctx.moveTo(b.x, b.y); ctx.lineTo(b.x, 0); ctx.stroke();
                 ctx.shadowBlur = 0;
             } else {
                 ctx.fillStyle = b.type === 'CLUSTER' ? '#ff9f43' : '#00ffcc';
-                ctx.beginPath(); ctx.arc(b.x, b.y, b.type === 'CLUSTER' ? 6 : 3.5, 0, Math.PI * 2); ctx.fill();
+                ctx.beginPath(); ctx.arc(b.x, b.y, b.type === 'CLUSTER' ? 12 : 7, 0, Math.PI * 2); ctx.fill();
             }
         });
 
-        // 적 탄환
+        // 적 포탄
         enemyBullets.forEach(eb => {
-            ctx.fillStyle = '#ff4757'; ctx.beginPath(); ctx.arc(eb.x, eb.y, 4, 0, Math.PI*2); ctx.fill();
+            ctx.fillStyle = '#ff4757'; ctx.beginPath(); ctx.arc(eb.x, eb.y, 7, 0, Math.PI*2); ctx.fill();
         });
 
-        // 적 기체 외형 그리기
+        // 적 기체 렌더링
         enemies.forEach(e => {
-            ctx.fillStyle = e.type === 'BOMBER' ? '#2f191e' : '#141f30';
+            ctx.fillStyle = e.type === 'BOMBER' ? '#2d142c' : '#111b29';
             ctx.strokeStyle = e.type === 'BOMBER' ? '#ff4757' : '#ff9f43';
-            ctx.lineWidth = 2;
+            ctx.lineWidth = 3;
             ctx.beginPath();
-            ctx.moveTo(e.x, e.y + e.height/2);
-            ctx.lineTo(e.x - e.width/2, e.y - e.height/2);
-            ctx.lineTo(e.x + e.width/2, e.y - e.height/2);
+            if (e.pattern === 'ARTILLERY') {
+                // 포격형은 커스텀 스퀘어 윙 비주얼 적용
+                ctx.rect(e.x - e.width/2, e.y - e.height/2, e.width, e.height);
+            } else {
+                ctx.moveTo(e.x, e.y + e.height/2);
+                ctx.lineTo(e.x - e.width/2, e.y - e.height/2);
+                ctx.lineTo(e.x + e.width/2, e.y - e.height/2);
+            }
             ctx.closePath(); ctx.fill(); ctx.stroke();
         });
 
@@ -800,66 +835,48 @@ html_content_v2 = """<!DOCTYPE html>
             ctx.globalAlpha = 1;
         });
 
-        // ★ 핵심 기획 구현: 아군 기체 레벨업(진화) 상태에 따른 실시간 기체 실루엣 비주얼 고도화 변형 연출
-        ctx.fillStyle = '#ffffff';
-        ctx.lineWidth = 3;
-        
-        if (skills.EV_M > 0 || skills.EV_L > 0) { // 3단계 최종 진화형 타이탄 실루엣
-            ctx.strokeStyle = '#ff4757'; // 진화용 플라즈마 코어 컬러 변형
+        // 아군 기체 스케일업 드로잉 (4배 맵 최적화 형태변환)
+        ctx.fillStyle = '#ffffff'; ctx.lineWidth = 4;
+        if (skills.EV_M > 0 || skills.EV_L > 0) {
+            ctx.strokeStyle = '#ff4757';
             ctx.beginPath();
-            ctx.moveTo(player.x, player.y - 25);
-            ctx.lineTo(player.x - 26, player.y + 10);
-            ctx.lineTo(player.x - 32, player.y + 22); // 외곽 대형 전진익 연장 날개 조립 비주얼
-            ctx.lineTo(player.x - 12, player.y + 12);
-            ctx.lineTo(player.x, player.y + 24);
-            ctx.lineTo(player.x + 12, player.y + 12);
-            ctx.lineTo(player.x + 32, player.y + 22);
-            ctx.lineTo(player.x + 26, player.y + 10);
+            ctx.moveTo(player.x, player.y - 50);
+            ctx.lineTo(player.x - 52, player.y + 20);
+            ctx.lineTo(player.x - 64, player.y + 44);
+            ctx.lineTo(player.x - 24, player.y + 24);
+            ctx.lineTo(player.x, player.y + 48);
+            ctx.lineTo(player.x + 24, player.y + 24);
+            ctx.lineTo(player.x + 64, player.y + 44);
+            ctx.lineTo(player.x + 52, player.y + 20);
             ctx.closePath(); ctx.fill(); ctx.stroke();
-            
-            // 핵 심 듀얼 유압 추진체 앰플리파이어 연출
-            ctx.fillStyle = '#ff4757'; ctx.beginPath();
-            ctx.arc(player.x - 10, player.y + 4, 4, 0, Math.PI*2);
-            ctx.arc(player.x + 10, player.y + 4, 4, 0, Math.PI*2);
-            ctx.fill();
-        } else if (skills.SK_M >= 3 || skills.SK_L >= 3) { // 2단계 준대형 전격 기체 아머 실루엣
+        } else if (skills.SK_M >= 3 || skills.SK_L >= 3) {
             ctx.strokeStyle = '#ff9f43';
             ctx.beginPath();
-            ctx.moveTo(player.x, player.y - 22);
-            ctx.lineTo(player.x - 24, player.y + 16);
-            ctx.lineTo(player.x - 10, player.y + 8);
-            ctx.lineTo(player.x, player.y + 18);
-            ctx.lineTo(player.x + 10, player.y + 8);
-            ctx.lineTo(player.x + 24, player.y + 16);
+            ctx.moveTo(player.x, player.y - 44);
+            ctx.lineTo(player.x - 48, player.y + 32);
+            ctx.lineTo(player.x - 20, player.y + 16);
+            ctx.lineTo(player.x, player.y + 36);
+            ctx.lineTo(player.x + 20, player.y + 16);
+            ctx.lineTo(player.x + 48, player.y + 32);
             ctx.closePath(); ctx.fill(); ctx.stroke();
-            
-            ctx.fillStyle = '#ff9f43'; ctx.beginPath(); ctx.arc(player.x, player.y + 2, 5, 0, Math.PI*2); ctx.fill();
-        } else { // 1단계 스트라이커 기본 실루엣
+        } else {
             ctx.strokeStyle = '#00ffcc';
             ctx.beginPath();
-            ctx.moveTo(player.x, player.y - 18);
-            ctx.lineTo(player.x - 18, player.y + 12);
-            ctx.lineTo(player.x - 8, player.y + 6);
-            ctx.lineTo(player.x, player.y + 14);
-            ctx.lineTo(player.x + 8, player.y + 6);
-            ctx.lineTo(player.x + 18, player.y + 12);
+            ctx.moveTo(player.x, player.y - 36);
+            ctx.lineTo(player.x - 36, player.y + 24);
+            ctx.lineTo(player.x - 16, player.y + 12);
+            ctx.lineTo(player.x, player.y + 28);
+            ctx.lineTo(player.x + 16, player.y + 12);
+            ctx.lineTo(player.x + 36, player.y + 24);
             ctx.closePath(); ctx.fill(); ctx.stroke();
-            
-            ctx.fillStyle = '#00ffcc'; ctx.beginPath(); ctx.arc(player.x, player.y + 2, 4, 0, Math.PI*2); ctx.fill();
         }
 
         requestAnimationFrame(loop);
     }
 
-    // 초기 엔진 부팅
     initRun();
     requestAnimationFrame(loop);
 </script>
 
 </body>
 </html>
-"""
-
-with open("index.html", "w", encoding="utf-8") as f:
-    f.write(html_content_v2)
-print("V2 Build updated successfully.")
