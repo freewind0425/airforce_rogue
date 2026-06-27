@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GO AIR RAID — Project K Engine Prototype</title>
+<style>
+  :root {
+    --gold: #d4af37;
+    --bg: #05070d;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0; height: 100%;
+    background: #000;
+    color: #e5e7eb;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    display: flex; align-items: center; justify-content: center;
+  }
+  #stage-wrap {
+    position: relative;
+    width: 480px; max-width: 100vw;
+    aspect-ratio: 480 / 720;
+    border: 2px solid var(--gold);
+    box-shadow: 0 0 30px rgba(212,175,55,0.25);
+    overflow: hidden;
+    background: var(--bg);
+  }
+  canvas { width: 100%; height: 100%; display: block; touch-action: none; }
+
+  #select-screen, #end-screen {
+    position: absolute; inset: 0;
+    background: rgba(5,7,13,0.95);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 16px; padding: 20px; text-align: center;
+  }
+  .hidden { display: none !important; }
+  h1 { color: var(--gold); letter-spacing: 4px; font-size: 22px; margin: 0; }
+  .subtitle { font-size: 11px; color: #9ca3af; letter-spacing: 2px; }
+
+  .aircraft-card {
+    width: 220px; border: 1px solid #374151; border-radius: 6px;
+    padding: 10px; cursor: pointer; transition: 0.15s; background: #0c0f18;
+  }
+  .aircraft-card:hover { border-color: var(--gold); transform: translateY(-2px); }
+  .aircraft-card .swatch { width: 100%; height: 50px; border-radius: 4px; margin-bottom: 8px; }
+  .aircraft-card .name { font-weight: bold; color: #fff; }
+  .aircraft-card .desc { font-size: 11px; color: #9ca3af; margin-top: 4px; }
+
+  #hud {
+    position: absolute; top: 0; left: 0; right: 0; padding: 8px 10px;
+    display: flex; flex-direction: column; gap: 4px; font-size: 11px; pointer-events: none;
+  }
+  .bar-row { display: flex; align-items: center; gap: 6px; }
+  .bar { flex: 1; height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; }
+  #hp-fill { height: 100%; background: #ef4444; width: 100%; transition: width 0.15s; }
+  #core-fill { height: 100%; background: var(--gold); width: 0%; transition: width 0.15s; }
+  .hud-top-row { display: flex; justify-content: space-between; color: #fff; }
+  #weapon-label { color: #7dffd6; }
+
+  #speed-controls {
+    position: absolute; bottom: 8px; left: 0; right: 0;
+    display: flex; justify-content: center; gap: 6px; pointer-events: auto;
+  }
+  .speed-btn {
+    width: 30px; height: 30px; border-radius: 50%; border: 1px solid #4b5563;
+    background: rgba(0,0,0,0.5); color: #d1d5db; font-size: 11px; cursor: pointer;
+  }
+  .speed-btn.active { background: var(--gold); color: #000; border-color: var(--gold); }
+
+  button.primary {
+    background: var(--gold); color: #000; border: none; padding: 10px 24px;
+    font-weight: bold; border-radius: 4px; cursor: pointer; letter-spacing: 1px;
+  }
+</style>
+</head>
+<body>
+  <div id="stage-wrap">
+    <canvas id="game" width="480" height="720"></canvas>
+
+    <div id="select-screen">
+      <h1>GO AIR RAID</h1>
+      <div class="subtitle">PROJECT K ENGINE — PROTOTYPE</div>
+      <div style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center;">
+        <div class="aircraft-card" data-id="PK-A01_Falcon">
+          <div class="swatch" style="background:linear-gradient(135deg,#c81e2c,#d4af37);"></div>
+          <div class="name">FALCON</div>
+          <div class="desc">밸런스형 · 직선 캐논 · 블루 코어</div>
+        </div>
+        <div class="aircraft-card" data-id="PK-B01_Vulcan">
+          <div class="swatch" style="background:linear-gradient(135deg,#1a1a1a,#d4af37);"></div>
+          <div class="name">VULCAN</div>
+          <div class="desc">중장갑형 · 체인건 · 오렌지 코어</div>
+        </div>
+      </div>
+      <div class="subtitle">기체를 선택하여 출격</div>
+    </div>
+
+    <div id="hud" class="hidden">
+      <div class="hud-top-row">
+        <span id="stage-label">STAGE 1</span>
+        <span id="level-label">LV 1</span>
+        <span id="score-label">SCORE 0</span>
+      </div>
+      <div class="bar-row">HP<div class="bar"><div id="hp-fill"></div></div></div>
+      <div class="bar-row">CORE<div class="bar"><div id="core-fill"></div></div></div>
+      <div id="weapon-label"></div>
+    </div>
+
+    <div id="speed-controls">
+      <button class="speed-btn active" data-speed="1">x1</button>
+      <button class="speed-btn" data-speed="2">x2</button>
+      <button class="speed-btn" data-speed="3">x3</button>
+      <button class="speed-btn" data-speed="4">x4</button>
+      <button class="speed-btn" data-speed="5">x5</button>
+    </div>
+
+    <div id="end-screen" class="hidden">
+      <h1 id="end-title">GAME OVER</h1>
+      <div id="end-score" class="subtitle"></div>
+      <button class="primary" id="retry-btn">RETRY</button>
+    </div>
+  </div>
+
+  <script src="src/engine.js"></script>
+  <script src="src/main.js"></script>
+</body>
+</html>

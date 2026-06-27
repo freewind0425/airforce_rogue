@@ -1,0 +1,88 @@
+{
+  "straight_cannon": {
+    "id": "straight_cannon",
+    "name": "직선 캐논",
+    "type": "straight",
+    "damage": 10,
+    "fireInterval": 14,
+    "projectileSpeed": 12,
+    "color": "#ffe066",
+    "evolvesWith": { "laser": "twin_beam_cannon" }
+  },
+  "laser": {
+    "id": "laser",
+    "name": "레이저",
+    "type": "laser",
+    "damage": 4,
+    "fireInterval": 4,
+    "projectileSpeed": 18,
+    "color": "#5ee7ff",
+    "evolvesWith": { "straight_cannon": "twin_beam_cannon", "chain_gun": "plasma_chain" }
+  },
+  "homing": {
+    "id": "homing",
+    "name": "유도탄",
+    "type": "homing",
+    "damage": 14,
+    "fireInterval": 26,
+    "projectileSpeed": 7,
+    "turnRate": 0.12,
+    "color": "#ff6bd6",
+    "evolvesWith": { "chain_gun": "swarm_missile" }
+  },
+  "chain_gun": {
+    "id": "chain_gun",
+    "name": "체인건",
+    "type": "chain",
+    "damage": 6,
+    "fireInterval": 6,
+    "projectileSpeed": 14,
+    "spread": 3,
+    "color": "#ffa64d",
+    "evolvesWith": { "laser": "plasma_chain", "homing": "swarm_missile" }
+  },
+  "shield": {
+    "id": "shield",
+    "name": "실드",
+    "type": "shield",
+    "damage": 0,
+    "fireInterval": 0,
+    "blockHits": 3,
+    "rechargeTime": 480,
+    "color": "#7dd3fc",
+    "evolvesWith": {}
+  },
+  "twin_beam_cannon": {
+    "id": "twin_beam_cannon",
+    "name": "트윈 빔 캐논",
+    "type": "combo",
+    "damage": 16,
+    "fireInterval": 8,
+    "projectileSpeed": 16,
+    "color": "#fff066",
+    "isEvolution": true
+  },
+  "plasma_chain": {
+    "id": "plasma_chain",
+    "name": "플라즈마 체인",
+    "type": "combo",
+    "damage": 9,
+    "fireInterval": 4,
+    "projectileSpeed": 17,
+    "spread": 5,
+    "color": "#7dffd6",
+    "isEvolution": true
+  },
+  "swarm_missile": {
+    "id": "swarm_missile",
+    "name": "스웜 미사일",
+    "type": "combo",
+    "damage": 12,
+    "fireInterval": 18,
+    "projectileSpeed": 9,
+    "turnRate": 0.18,
+    "missileCount": 3,
+    "color": "#ff9bd6",
+    "isEvolution": true
+  }
+}

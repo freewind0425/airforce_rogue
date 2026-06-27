@@ -1,0 +1,24 @@
+{
+  "PK-A01_Falcon": {
+    "id": "PK-A01_Falcon",
+    "name": "Falcon",
+    "colors": { "primary": "#c81e2c", "secondary": "#d4af37", "accent": "#ffffff" },
+    "coreColor": "#3b82f6",
+    "type": "balanced",
+    "defaultWeapon": "straight_cannon",
+    "baseStats": { "hp": 100, "speed": 5, "fireRate": 1.0, "damage": 1.0 },
+    "growthPerLevel": { "hp": 20, "speed": 0.3, "fireRate": 0.08, "damage": 0.15 },
+    "maxLevel": 5
+  },
+  "PK-B01_Vulcan": {
+    "id": "PK-B01_Vulcan",
+    "name": "Vulcan",
+    "colors": { "primary": "#1a1a1a", "secondary": "#d4af37", "accent": "#333333" },
+    "coreColor": "#ff8c00",
+    "type": "heavy",
+    "defaultWeapon": "chain_gun",
+    "baseStats": { "hp": 150, "speed": 3.5, "fireRate": 0.85, "damage": 1.2 },
+    "growthPerLevel": { "hp": 30, "speed": 0.15, "fireRate": 0.05, "damage": 0.2 },
+    "maxLevel": 5
+  }
+}
