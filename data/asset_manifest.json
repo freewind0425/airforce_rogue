@@ -1,0 +1,59 @@
+{
+  "version": "1.3",
+  "basePath": "",
+  "assets": {
+    "player": {
+      "falcon": [
+        "assets/aircraft/player/falcon/falcon_lv01.png",
+        "assets/aircraft/player/falcon/falcon_lv02.png",
+        "assets/aircraft/player/falcon/falcon_lv03.png",
+        "assets/aircraft/player/falcon/falcon_lv04.png",
+        "assets/aircraft/player/falcon/falcon_lv05.png"
+      ],
+      "vulcan": [
+        "assets/aircraft/player/vulcan/vulcan_lv01.png",
+        "assets/aircraft/player/vulcan/vulcan_lv02.png",
+        "assets/aircraft/player/vulcan/vulcan_lv03.png",
+        "assets/aircraft/player/vulcan/vulcan_lv04.png",
+        "assets/aircraft/player/vulcan/vulcan_lv05.png"
+      ]
+    },
+    "enemy": {
+      "scout": "assets/aircraft/enemy/enemy_scout_01.png",
+      "interceptor": "assets/aircraft/enemy/enemy_interceptor_01.png",
+      "bomber": "assets/aircraft/enemy/enemy_bomber_01.png",
+      "elite": "assets/aircraft/enemy/enemy_elite_01.png"
+    },
+    "boss": {
+      "stage05": "assets/aircraft/boss/boss_stage05.png"
+    },
+    "weapon": {
+      "laserBlue": "assets/weapons/weapon_laser_blue.png",
+      "plasma": "assets/weapons/weapon_plasma.png",
+      "missile": "assets/weapons/weapon_missile.png"
+    },
+    "fx": {
+      "engineBlue": "assets/fx/fx_engine_blue.png",
+      "explosion": [
+        "assets/fx/fx_explosion_01_f1.png",
+        "assets/fx/fx_explosion_01_f2.png",
+        "assets/fx/fx_explosion_01_f3.png",
+        "assets/fx/fx_explosion_01_f4.png",
+        "assets/fx/fx_explosion_01_f5.png"
+      ],
+      "hit": [
+        "assets/fx/fx_hit_03_f1.png",
+        "assets/fx/fx_hit_03_f2.png",
+        "assets/fx/fx_hit_03_f3.png",
+        "assets/fx/fx_hit_03_f4.png",
+        "assets/fx/fx_hit_03_f5.png"
+      ]
+    },
+    "ui": {
+      "hpFrame": "assets/ui/ui_hp_frame.png",
+      "hpFill": "assets/ui/ui_hp_fill.png",
+      "wavePanel": "assets/ui/ui_wave_panel.png",
+      "upgradeButton": "assets/ui/ui_button_upgrade.png"
+    }
+  }
+}
