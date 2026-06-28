@@ -1,23 +1,15 @@
-# Project K - SVG Asset Integrated Build v0.5
+# Project K Player Aircraft From Asset Sheet v0.7
 
-## 핵심
-- SVG 에셋 실제 파일 생성
-- Falcon / Vulcan Lv1~Lv5
-- Enemy / Boss / FX / UI / Background / Decal 에셋 포함
-- 게임에서 SVG 에셋을 직접 로딩해서 사용
-- GitHub Pages 업로드 가능
+요청한 컨셉 시트 이미지의 기체를 실제 게임에서 사용할 수 있도록 잘라낸 에셋입니다.
 
-## 실행
-로컬에서는 서버 실행 권장:
+## 포함
+- 10 SVG files
+- 10 PNG files
+- manifest JSON
+- preview HTML
+- upload guide
 
-```bash
-python -m http.server 8000
-```
-
-브라우저:
-```text
-http://localhost:8000
-```
-
-## 주의
-이번 에셋은 상용 최종 원화가 아니라 Asset SDK용 SVG 초안입니다.
+## GitHub 위치
+- `assets/aircraft/player_sheet/svg/`
+- `assets/aircraft/player_sheet/png/`
+- `data/aircraft/player_aircraft_sheet_assets.json`
