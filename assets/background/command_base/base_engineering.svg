@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
-<defs>
-<filter id="glow"><feGaussianBlur stdDeviation="6"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-<linearGradient id="metal" x1="0" x2="1"><stop offset="0" stop-color="#dbeafe"/><stop offset=".5" stop-color="#64748b"/><stop offset="1" stop-color="#f8fafc"/></linearGradient>
-<linearGradient id="blueglow" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e0f2fe"/><stop offset=".5" stop-color="#38bdf8"/><stop offset="1" stop-color="#0c4a6e"/></linearGradient>
-<linearGradient id="fire" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff7ed"/><stop offset=".45" stop-color="#fb923c"/><stop offset="1" stop-color="#7f1d1d"/></linearGradient>
-</defs>
-<rect width="512" height="512" fill="#071127"/><path d="M0 420 L512 420 L430 512 L82 512 Z" fill="#111827"/><path d="M60 80 L452 80 L390 420 L122 420 Z" fill="#0f172a" stroke="#fb923c" stroke-width="6" opacity=".8"/><circle cx="256" cy="250" r="70" fill="#fb923c" opacity=".16" filter="url(#glow)"/><path d="M80 420 L256 260 L432 420" stroke="#fb923c" stroke-width="3" opacity=".35"/>
-</svg>
