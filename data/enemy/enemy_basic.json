@@ -1,0 +1,14 @@
+[
+  {
+    "id": "scout",
+    "hp": 22
+  },
+  {
+    "id": "interceptor",
+    "hp": 16
+  },
+  {
+    "id": "bomber",
+    "hp": 48
+  }
+]

@@ -1,0 +1,22 @@
+{
+  "id": "PK-B01",
+  "name": "Vulcan",
+  "palette": {
+    "primary": "#1f2937",
+    "secondary": "#d97706",
+    "accent": "#f6d35c",
+    "core": "#fb923c"
+  },
+  "levels": {
+    "1": {
+      "wing": "WG-005",
+      "engine": "EN-004",
+      "gun": "GN-004"
+    },
+    "5": {
+      "wing": "WG-006",
+      "engine": "EN-005",
+      "gun": "GN-005"
+    }
+  }
+}
