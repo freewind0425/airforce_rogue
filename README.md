@@ -1,15 +1,22 @@
-# Project K Player Aircraft From Asset Sheet v0.7
+# Project K PNG Asset Pack v1.0
 
-요청한 컨셉 시트 이미지의 기체를 실제 게임에서 사용할 수 있도록 잘라낸 에셋입니다.
+승인된 시안 이미지를 기준으로 잘라낸 게임 적용용 PNG 에셋 패키지입니다.
 
 ## 포함
-- 10 SVG files
-- 10 PNG files
-- manifest JSON
-- preview HTML
-- upload guide
+- PNG 에셋 83개
+- Falcon / Vulcan Lv1~Lv5
+- 적 / 보스 / 무기 / FX / UI / 배경
+- 게임에 적용된 `index.html`
+- `data/assets/asset_manifest.json`
+- 미리보기 `docs/preview_assets.html`
 
-## GitHub 위치
-- `assets/aircraft/player_sheet/svg/`
-- `assets/aircraft/player_sheet/png/`
-- `data/aircraft/player_aircraft_sheet_assets.json`
+## 실행
+GitHub Pages에 올리면 실행됩니다.
+
+로컬 테스트:
+```bash
+python -m http.server 8000
+```
+
+## 업로드
+압축을 풀고 저장소 루트에 그대로 업로드하세요.

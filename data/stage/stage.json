@@ -1,0 +1,124 @@
+{
+  "stages": [
+    {
+      "stage": 1,
+      "waves": 3,
+      "killGoal": 29,
+      "boss": false
+    },
+    {
+      "stage": 2,
+      "waves": 3,
+      "killGoal": 34,
+      "boss": false
+    },
+    {
+      "stage": 3,
+      "waves": 3,
+      "killGoal": 39,
+      "boss": false
+    },
+    {
+      "stage": 4,
+      "waves": 3,
+      "killGoal": 44,
+      "boss": false
+    },
+    {
+      "stage": 5,
+      "waves": 3,
+      "killGoal": 49,
+      "boss": true
+    },
+    {
+      "stage": 6,
+      "waves": 3,
+      "killGoal": 54,
+      "boss": false
+    },
+    {
+      "stage": 7,
+      "waves": 3,
+      "killGoal": 59,
+      "boss": false
+    },
+    {
+      "stage": 8,
+      "waves": 3,
+      "killGoal": 64,
+      "boss": false
+    },
+    {
+      "stage": 9,
+      "waves": 3,
+      "killGoal": 69,
+      "boss": false
+    },
+    {
+      "stage": 10,
+      "waves": 3,
+      "killGoal": 74,
+      "boss": true
+    },
+    {
+      "stage": 11,
+      "waves": 3,
+      "killGoal": 79,
+      "boss": false
+    },
+    {
+      "stage": 12,
+      "waves": 3,
+      "killGoal": 84,
+      "boss": false
+    },
+    {
+      "stage": 13,
+      "waves": 3,
+      "killGoal": 89,
+      "boss": false
+    },
+    {
+      "stage": 14,
+      "waves": 3,
+      "killGoal": 94,
+      "boss": false
+    },
+    {
+      "stage": 15,
+      "waves": 3,
+      "killGoal": 99,
+      "boss": true
+    },
+    {
+      "stage": 16,
+      "waves": 3,
+      "killGoal": 104,
+      "boss": false
+    },
+    {
+      "stage": 17,
+      "waves": 3,
+      "killGoal": 109,
+      "boss": false
+    },
+    {
+      "stage": 18,
+      "waves": 3,
+      "killGoal": 114,
+      "boss": false
+    },
+    {
+      "stage": 19,
+      "waves": 3,
+      "killGoal": 119,
+      "boss": false
+    },
+    {
+      "stage": 20,
+      "waves": 3,
+      "killGoal": 124,
+      "boss": true
+    }
+  ]
+}

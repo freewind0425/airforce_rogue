@@ -1,37 +1,4 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
-<title>Project K v0.5 Asset Integrated</title>
-<link rel="stylesheet" href="./style.css">
-</head>
-<body>
-<div id="app">
-<section id="base" class="screen active">
-  <div class="grid"></div><div class="scan"></div><div class="beam"></div><div class="drone d1"></div><div class="drone d2"></div>
-  <div class="top"><div class="res" id="goldTop">GOLD 0</div><div class="res" id="rpTop">RP 0</div><div class="res">⚙</div></div>
-  <div class="title">COMMAND BASE</div><div class="sub">PROJECT K / SVG ASSET BUILD v0.5</div>
-  <div class="showcase"><div id="shipSvg"></div><div class="shipName" id="shipName"></div><div class="tag" id="shipTag"></div></div>
-  <div class="nav"><button onclick="toast('Technology Center는 다음 CR에서 구현')">기술센터</button><button id="aircraftBtn">기체</button><button id="startBtn" class="start">출격</button><button onclick="toast('Combat Database는 다음 CR에서 구현')">DB</button></div>
-</section>
-<section id="game" class="screen">
-  <canvas id="gameCanvas"></canvas>
-  <div class="hud">
-    <div class="topHud"><div class="stage" id="stageText">STAGE 1</div><div><div class="kill" id="killText">WAVE 1 / KILL 0</div><div class="progress"><div class="fill" id="stageFill"></div></div></div><button class="pause" id="pauseBtn">Ⅱ</button></div>
-    <div class="bossBar" id="bossBar"><div class="bossFill" id="bossFill"></div></div>
-    <div class="left">HP<div class="bar hp"><i id="hpFill" style="width:100%"></i></div>EXP<div class="bar"><i id="expFill" style="width:0%"></i></div></div>
-    <div class="weapons" id="weaponText"></div>
-    <button class="level" id="levelBtn"><span>LEVEL</span><b id="levelCount">1</b></button>
-    <button class="speed" id="speedBtn">⏩<br>x1</button>
-    <div class="msg" id="centerMsg"></div>
-  </div>
-  <div class="modal" id="levelModal"><div class="cards" id="cards"></div></div>
-  <div class="modal" id="pauseModal"><div class="menu"><h2>PAUSED</h2><button class="menuBtn" id="continueBtn">계속하기</button><button class="menuBtn settle" id="settleBtn">정산하고 기지로</button></div></div>
-  <div class="modal" id="resultModal"><div class="menu"><h2 id="resultTitle">RESULT</h2><div id="resultText" style="line-height:1.8;color:#cfe4ff"></div><button class="menuBtn settle" id="backBaseBtn">기지로</button></div></div>
-</section>
-<div class="toast" id="toastBox"></div>
-</div>
-<script type="module" src="./src/main.js"></script>
-</body>
-</html>
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"><title>Project K PNG Asset Pack v1.0</title><link rel="stylesheet" href="./style.css"></head>
+<body><div id="app">
+<section id="base" class="screen active"><div class="grid"></div><div class="scan"></div><div class="beam"></div><div class="top"><div class="res" id="goldTop">GOLD 0</div><div class="res" id="rpTop">RP 0</div><div class="res">PNG v1.0</div></div><div class="title">COMMAND BASE</div><div class="sub">PROJECT K / PNG ASSET PACK APPLIED</div><div class="showcase"><img id="baseShip"><div class="shipName" id="shipName"></div><div class="tag" id="shipTag"></div></div><div class="nav"><button onclick="toast('Technology Center는 다음 CR')">기술센터</button><button id="aircraftBtn">기체</button><button id="startBtn" class="start">출격</button><button onclick="toast('Combat Database는 다음 CR')">DB</button></div></section>
+<section id="game" class="screen"><canvas id="gameCanvas"></canvas><div class="hud"><div class="topHud"><div class="stage" id="stageText">STAGE 1</div><div><div class="kill" id="killText">WAVE 1</div><div class="progress"><div class="fill" id="stageFill"></div></div></div><button class="pause" id="pauseBtn">Ⅱ</button></div><div class="bossBar" id="bossBar"><div class="bossFill" id="bossFill"></div></div><div class="left">HP<div class="bar hp"><i id="hpFill"></i></div>EXP<div class="bar"><i id="expFill"></i></div></div><div class="weapons" id="weaponText"></div><button class="level" id="levelBtn"><span>LEVEL</span><b id="levelCount">1</b></button><button class="speed" id="speedBtn">⏩<br>x1</button><div class="msg" id="centerMsg"></div></div><div class="modal" id="levelModal"><div class="cards" id="cards"></div></div><div class="modal" id="pauseModal"><div class="menu"><h2>PAUSED</h2><button class="menuBtn" id="continueBtn">계속하기</button><button class="menuBtn settle" id="settleBtn">정산하고 기지로</button></div></div><div class="modal" id="resultModal"><div class="menu"><h2 id="resultTitle">RESULT</h2><div id="resultText"></div><button class="menuBtn settle" id="backBaseBtn">기지로</button></div></div></section><div class="toast" id="toastBox"></div></div><script type="module" src="./src/main.js"></script></body></html>

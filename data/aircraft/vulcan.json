@@ -1,0 +1,34 @@
+{
+  "id": "vulcan",
+  "name": "Vulcan",
+  "levels": [
+    "assets/aircraft/vulcan/vulcan_lv1.png",
+    "assets/aircraft/vulcan/vulcan_lv2.png",
+    "assets/aircraft/vulcan/vulcan_lv3.png",
+    "assets/aircraft/vulcan/vulcan_lv4.png",
+    "assets/aircraft/vulcan/vulcan_lv5.png"
+  ],
+  "anchors": {
+    "weaponCenter": [
+      256,
+      80
+    ],
+    "weaponLeft": [
+      186,
+      170
+    ],
+    "weaponRight": [
+      326,
+      170
+    ],
+    "engineCenter": [
+      256,
+      430
+    ],
+    "core": [
+      256,
+      250
+    ]
+  },
+  "role": "heavy"
+}
