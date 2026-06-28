@@ -3,72 +3,106 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
-  <title>Project K MVP</title>
+  <title>Project K</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
-  <div id="app">
-    <section id="lobby" class="screen active">
-      <div class="title">PROJECT K</div>
-      <div class="subtitle">MVP Asset Integration Build</div>
-      <div class="ship-preview">
-        <img id="lobbyShip" alt="ship preview" />
-        <div id="lobbyShipName">FALCON</div>
-      </div>
-      <div class="lobby-actions">
-        <button id="selectFalcon">Falcon</button>
-        <button id="selectVulcan">Vulcan</button>
-        <button id="startGame" class="primary">START</button>
-      </div>
-      <div class="note">Assets are loaded from <code>data/asset_manifest.json</code></div>
-    </section>
-
-    <section id="game" class="screen">
-      <canvas id="gameCanvas"></canvas>
-      <div id="hud">
-        <div class="top-row">
-          <div id="waveHud">
-            <img id="wavePanelImg" />
-            <div id="waveText">STAGE 1  WAVE 1</div>
+  <div id="viewport">
+    <div id="app">
+      <section id="lobby" class="screen active">
+        <div class="lobby-bg"></div>
+        <header class="lobby-topbar">
+          <div class="brand">
+            <span class="brand-mark">PROJECT</span><span class="brand-mark accent">K</span>
           </div>
-          <button id="pauseBtn">Ⅱ</button>
-        </div>
-        <div id="hpHud">
-          <img id="hpFrameImg" />
-          <div id="hpFillClip"><img id="hpFillImg" /></div>
-        </div>
-        <div id="expHud">
-          <div id="expFillTrack"><div id="expFill"></div></div>
-        </div>
-        <button id="speedBtn">x1</button>
-        <button id="levelUpBtn" disabled>LEVEL UP</button>
-      </div>
+          <div class="build-tag">MVP BUILD</div>
+        </header>
 
-      <div id="levelUpModal" class="modal hidden">
-        <div class="modal-card levelup-card">
-          <h2>LEVEL UP</h2>
-          <p class="levelup-sub">카드 1개를 선택하세요</p>
-          <div id="levelUpCards" class="card-row"></div>
+        <div class="ship-stage">
+          <div class="ship-stage-inner">
+            <div class="ship-stage-ring"></div>
+            <img id="lobbyShip" class="ship-stage-img" alt="ship preview" />
+            <div class="ship-stage-label">
+              <span id="lobbyShipName">FALCON</span>
+              <span class="ship-stage-sub">PURSUIT INTERCEPTOR</span>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div id="pauseMenu" class="modal hidden">
-        <div class="modal-card">
-          <h2>PAUSED</h2>
-          <button id="resumeBtn">계속하기</button>
-          <button id="settleBtn">정산하고 로비로</button>
-        </div>
-      </div>
+        <div class="lobby-bottom">
+          <div class="ship-picker">
+            <button id="selectFalcon" class="ship-chip active" data-ship="falcon">
+              <span class="chip-index">01</span><span class="chip-name">FALCON</span>
+            </button>
+            <button id="selectVulcan" class="ship-chip" data-ship="vulcan">
+              <span class="chip-index">02</span><span class="chip-name">VULCAN</span>
+            </button>
+          </div>
 
-      <div id="resultScreen" class="modal hidden">
-        <div class="modal-card">
-          <h2 id="resultTitle">RESULT</h2>
-          <div class="result-row"><span id="resultStage">STAGE 1</span><span id="resultWave">WAVE 1</span></div>
-          <div class="result-row"><span id="resultKills">0 KILLS</span><span id="resultTime">00:00</span></div>
-          <button id="resultConfirmBtn" class="primary">기지로</button>
+          <button id="startGame" class="launch-btn">
+            <span class="launch-btn-label">출격</span>
+            <span class="launch-btn-sub">LAUNCH</span>
+          </button>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <section id="game" class="screen">
+        <div class="game-bg"></div>
+        <canvas id="gameCanvas"></canvas>
+        <div id="hud">
+          <div class="top-row">
+            <div id="waveHud">
+              <img id="wavePanelImg" />
+              <div id="waveText"><span class="stage-num">STAGE 1</span><span class="wave-sep">·</span><span class="wave-num">WAVE 1</span></div>
+            </div>
+            <button id="pauseBtn" class="icon-btn">Ⅱ</button>
+          </div>
+          <div id="statusCluster">
+            <div id="hpHud">
+              <img id="hpFrameImg" />
+              <div id="hpFillClip"><img id="hpFillImg" /></div>
+              <span class="status-label">HP</span>
+            </div>
+            <div id="expHud">
+              <div id="expFillTrack"><div id="expFill"></div></div>
+              <span class="status-label exp-label">EXP</span>
+            </div>
+          </div>
+          <button id="speedBtn" class="icon-btn speed-btn">x1</button>
+          <button id="levelUpBtn" class="levelup-btn" disabled>
+            <span class="levelup-btn-label">LEVEL UP</span>
+          </button>
+        </div>
+
+        <div id="levelUpModal" class="modal hidden">
+          <div class="modal-card levelup-card">
+            <h2>LEVEL UP</h2>
+            <p class="levelup-sub">카드 1개를 선택하세요</p>
+            <div id="levelUpCards" class="card-row"></div>
+          </div>
+        </div>
+
+        <div id="pauseMenu" class="modal hidden">
+          <div class="modal-card">
+            <h2>PAUSED</h2>
+            <button id="resumeBtn" class="menu-btn primary">계속하기</button>
+            <button id="settleBtn" class="menu-btn">정산하고 로비로</button>
+          </div>
+        </div>
+
+        <div id="resultScreen" class="modal hidden">
+          <div class="modal-card">
+            <h2 id="resultTitle">RESULT</h2>
+            <div class="result-row"><span id="resultStage">STAGE 1</span><span id="resultWave">WAVE 1</span></div>
+            <div class="result-row"><span id="resultKills">0 KILLS</span><span id="resultTime">00:00</span></div>
+            <button id="resultConfirmBtn" class="menu-btn primary">기지로</button>
+          </div>
+        </div>
+      </section>
+    </div>
   </div>
   <script type="module" src="./src/main.js"></script>
 </body>

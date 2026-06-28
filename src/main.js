@@ -33,6 +33,8 @@ function showLobbyShip() {
   const path = loader.manifest.assets.player[selectedShip][0];
   $('lobbyShip').src = path;
   $('lobbyShipName').textContent = selectedShip.toUpperCase();
+  $('selectFalcon').classList.toggle('active', selectedShip === 'falcon');
+  $('selectVulcan').classList.toggle('active', selectedShip === 'vulcan');
 }
 
 function goToLobby() {

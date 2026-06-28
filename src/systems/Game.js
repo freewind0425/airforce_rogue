@@ -180,7 +180,8 @@ export class Game {
     const ready = this.pendingLevelUps > 0;
     this.hud.levelUpBtn.classList.toggle('ready', ready);
     this.hud.levelUpBtn.disabled = !ready;
-    this.hud.levelUpBtn.textContent = ready ? `LEVEL UP ${this.pendingLevelUps}` : 'LEVEL UP';
+    const label = ready ? `LEVEL UP ${this.pendingLevelUps}` : 'LEVEL UP';
+    this.hud.levelUpBtn.innerHTML = `<span class="levelup-btn-label">${label}</span>`;
   }
 
   gainExp(amount) {
@@ -239,15 +240,30 @@ export class Game {
     }
 
     for (const e of this.enemies) {
-      e.y += e.speed * dt;
-      if (e.type === 'boss') e.x += Math.sin(performance.now() / 600) * 20 * dt;
+      if (e.type === 'boss') {
+        // 보스는 정해진 Y 위치에 고정, 좌우로만 흔들리며 등장 시 살짝 내려와 자리잡음
+        if (e.y < e.targetY) {
+          e.y += 60 * dt;
+        } else {
+          e.y = e.targetY;
+        }
+        e.x += Math.sin(performance.now() / 600) * 20 * dt;
+      } else {
+        e.y += e.speed * dt;
+      }
     }
 
     this.handleCollisions();
     this.updateFx(dt);
 
     this.projectiles = this.projectiles.filter((p) => p.life > 0 && p.y > -160 && p.y < this.canvas.height + 160);
-    this.enemies = this.enemies.filter((e) => e.hp > 0 && e.y < this.canvas.height + 160);
+    // 보스는 화면 밖으로 흘러나가는 일이 없으므로 hp 조건만으로 충분하지만,
+    // 일반 적은 화면 밖으로 나가면(=놓침) 제거한다.
+    this.enemies = this.enemies.filter((e) => {
+      if (e.hp <= 0) return false;
+      if (e.type === 'boss') return true;
+      return e.y < this.canvas.height + 160;
+    });
 
     if (this.enemies.length === 0) {
       this.nextWave();
@@ -324,7 +340,8 @@ export class Game {
         type: 'boss',
         imgPath: bossPath,
         x: this.canvas.width / 2,
-        y: 150,
+        y: -200,
+        targetY: 170,
         hp: 600 + this.stage * 70,
         maxHp: 600 + this.stage * 70,
         speed: 8,
@@ -353,6 +370,15 @@ export class Game {
   }
 
   nextWave() {
+    const wasBossStage = this.stage % 5 === 0;
+    if (wasBossStage) {
+      // 보스를 처치하면 곧바로 다음 스테이지로 진행한다 (보스전은 1웨이브로 끝).
+      this.wave = 1;
+      this.stage += 1;
+      this.spawnWave();
+      return;
+    }
+
     this.wave += 1;
     if (this.wave > 3) {
       this.wave = 1;
@@ -411,9 +437,9 @@ export class Game {
 
   // ---------- HUD ----------
   updateHud() {
-    const hpPct = Math.max(0, this.player.hp / this.player.maxHp);
-    this.hud.hpFillClip.style.width = `${Math.floor(200 * hpPct)}px`;
-    this.hud.waveText.textContent = `STAGE ${this.stage}  WAVE ${this.wave}`;
+    const hpRatio = Math.max(0, this.player.hp / this.player.maxHp);
+    this.hud.hpFillClip.style.width = `${(82 * hpRatio).toFixed(1)}%`;
+    this.hud.waveText.innerHTML = `<span class="stage-num">STAGE ${this.stage}</span><span class="wave-sep">·</span><span class="wave-num">WAVE ${this.wave}</span>`;
     if (this.hud.expFill) {
       const expPct = Math.min(1, this.player.exp / this.player.expToNext);
       this.hud.expFill.style.width = `${Math.floor(100 * expPct)}%`;
@@ -447,10 +473,9 @@ export class Game {
     const h = this.canvas.height;
     ctx.clearRect(0, 0, w, h);
 
-    ctx.fillStyle = '#071127';
-    ctx.fillRect(0, 0, w, h);
-
-    ctx.strokeStyle = 'rgba(56,189,248,.07)';
+    // 캔버스는 투명하게 두고 CSS의 우주 배경(.game-bg)이 그대로 비쳐 보이게 한다.
+    // 약한 스캔라인만 미래형 HUD 질감을 위해 추가.
+    ctx.strokeStyle = 'rgba(120,200,255,.045)';
     for (let y = 0; y < h; y += 42) {
       ctx.beginPath();
       ctx.moveTo(0, y);
