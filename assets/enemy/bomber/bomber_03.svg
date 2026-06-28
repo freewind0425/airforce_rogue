@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+<defs>
+<filter id="glow"><feGaussianBlur stdDeviation="6"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<linearGradient id="metal" x1="0" x2="1"><stop offset="0" stop-color="#dbeafe"/><stop offset=".5" stop-color="#64748b"/><stop offset="1" stop-color="#f8fafc"/></linearGradient>
+<linearGradient id="blueglow" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e0f2fe"/><stop offset=".5" stop-color="#38bdf8"/><stop offset="1" stop-color="#0c4a6e"/></linearGradient>
+<linearGradient id="fire" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff7ed"/><stop offset=".45" stop-color="#fb923c"/><stop offset="1" stop-color="#7f1d1d"/></linearGradient>
+</defs>
+<path d="M256 105 L355 190 L330 340 L256 405 L182 340 L157 190 Z" fill="#7f1d1d" stroke="#111827" stroke-width="12"/><path d="M256 160 L290 260 L256 345 L222 260 Z" fill="#ef4444"/><circle cx="256" cy="255" r="25" fill="#f97316" filter="url(#glow)"/>
+</svg>

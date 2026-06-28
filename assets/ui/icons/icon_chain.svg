@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+<defs>
+<filter id="glow"><feGaussianBlur stdDeviation="6"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<linearGradient id="metal" x1="0" x2="1"><stop offset="0" stop-color="#dbeafe"/><stop offset=".5" stop-color="#64748b"/><stop offset="1" stop-color="#f8fafc"/></linearGradient>
+<linearGradient id="blueglow" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e0f2fe"/><stop offset=".5" stop-color="#38bdf8"/><stop offset="1" stop-color="#0c4a6e"/></linearGradient>
+<linearGradient id="fire" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff7ed"/><stop offset=".45" stop-color="#fb923c"/><stop offset="1" stop-color="#7f1d1d"/></linearGradient>
+</defs>
+<path d="M256 52 L428 150 L428 362 L256 460 L84 362 L84 150 Z" fill="#111827" stroke="#e5e7eb" stroke-width="8"/><circle cx="256" cy="256" r="78" fill="#38bdf8" opacity=".25" filter="url(#glow)"/><text x="256" y="276" fill="#fff" font-size="48" font-weight="900" text-anchor="middle">C</text>
+</svg>

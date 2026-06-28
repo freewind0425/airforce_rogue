@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+<defs>
+<filter id="glow"><feGaussianBlur stdDeviation="6"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<linearGradient id="metal" x1="0" x2="1"><stop offset="0" stop-color="#dbeafe"/><stop offset=".5" stop-color="#64748b"/><stop offset="1" stop-color="#f8fafc"/></linearGradient>
+<linearGradient id="blueglow" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e0f2fe"/><stop offset=".5" stop-color="#38bdf8"/><stop offset="1" stop-color="#0c4a6e"/></linearGradient>
+<linearGradient id="fire" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff7ed"/><stop offset=".45" stop-color="#fb923c"/><stop offset="1" stop-color="#7f1d1d"/></linearGradient>
+</defs>
+<path d="M256 256 L326.0 256.0" stroke="#fb923c" stroke-width="4"/><path d="M256 256 L305.517178841704 305.4777626773756" stroke="#fb923c" stroke-width="4"/><path d="M256 256 L256.0557428697513 325.9999778052284" stroke="#fb923c" stroke-width="4"/><path d="M256 256 L206.56168486259963 305.55656360539024" stroke="#fb923c" stroke-width="4"/><path d="M256 256 L186.00008877907223 256.11148570415406" stroke="#fb923c" stroke-width="4"/><path d="M256 256 L206.4040830565409 206.60116375320663" stroke="#fb923c" stroke-width="4"/><path d="M256 256 L255.8327715321403 186.00019975285974" stroke="#fb923c" stroke-width="4"/><path d="M256 256 L305.3593260305896 206.3647611690448" stroke="#fb923c" stroke-width="4"/><circle cx="256" cy="256" r="40" fill="url(#fire)" filter="url(#glow)"/><circle cx="256" cy="256" r="18.0" fill="#fff7ed"/>
+</svg>

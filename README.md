@@ -1,16 +1,23 @@
-# Project K - Command Base Asset SDK Build v0.2
+# Project K - SVG Asset Integrated Build v0.5
 
-GitHub Pages 테스트 빌드입니다.
-
-## 반영 내용
-- Command Base 허브
-- 모듈형 기체 에셋 구조
-- Falcon / Vulcan 조립형 표시
-- Falcon Lv1~Lv5 성장
-- Wingman Straight / Wingman Homing
-- HP 0 이하 정산
-- 일시정지 / 정산하고 기지로
-- CR / ADR 문서 구조
+## 핵심
+- SVG 에셋 실제 파일 생성
+- Falcon / Vulcan Lv1~Lv5
+- Enemy / Boss / FX / UI / Background / Decal 에셋 포함
+- 게임에서 SVG 에셋을 직접 로딩해서 사용
+- GitHub Pages 업로드 가능
 
 ## 실행
-index.html을 브라우저에서 열면 됩니다.
+로컬에서는 서버 실행 권장:
+
+```bash
+python -m http.server 8000
+```
+
+브라우저:
+```text
+http://localhost:8000
+```
+
+## 주의
+이번 에셋은 상용 최종 원화가 아니라 Asset SDK용 SVG 초안입니다.
